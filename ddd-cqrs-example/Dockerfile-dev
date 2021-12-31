@@ -1,0 +1,7 @@
+FROM node:lts
+
+RUN npm i -g @nestjs/cli@^8.0.0
+
+WORKDIR /usr/src/app
+
+COPY ./ /usr/src/app/

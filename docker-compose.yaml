@@ -1,0 +1,83 @@
+version: '3.8'
+
+networks:
+  my-network:
+
+services:
+
+  backend-service:
+    image: docker.jesusyaro.com/nest-ddd-cqrs-example
+    build:
+      context: ./ddd-cqrs-example
+      dockerfile: ./Dockerfile
+    container_name: backend-container
+    ports:
+      - '3000:3000'
+    networks:
+      - my-network
+
+  rabbitmq-service:
+    image: rabbitmq:3.9.9-management-alpine
+    expose:
+      - '5672'
+    ports:
+      - '15672:15672'
+    networks:
+      - my-network
+
+  redis-service:
+    image: redis:6.2.6-alpine
+    expose:
+      - '6379'
+    networks:
+      - my-network
+
+  mongo-service:
+    image: mongo
+    volumes:
+      - ./database:/data/db
+      - ./database/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: my_db
+    networks:
+      - my-network
+  
+  minio-service:
+    image: minio/minio
+    # command: bash -c "export MINIO_SERVER_URL=''"
+    command: server /data
+    ports: 
+      - 9000:9000
+    volumes: 
+      - ./storage:/data
+    networks:
+      - my-network
+    environment:
+      MINIO_ACCESS_KEY: minioaccess
+      MINIO_SECRET_KEY: miniosecret
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  
+  createbuckets-service:
+    image: minio/mc
+    depends_on:
+      minio-service:
+        condition: service_healthy
+    restart: on-failure
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set myminio http://minio-service:9000 minioaccess miniosecret;
+      /usr/bin/mc mb myminio/my-bucket;
+      /usr/bin/mc policy set public myminio/my-bucket;
+      "
+    networks:
+      - my-network
+    
