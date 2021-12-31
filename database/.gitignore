@@ -1,0 +1,4 @@
+*
+!mongo-init.js
+!.gitignore
+!Dockerfile
