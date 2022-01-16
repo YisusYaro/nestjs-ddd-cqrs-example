@@ -25,11 +25,8 @@ export class UsersController {
     description: ResponseDescription.INTERNAL_SERVER_ERROR,
   })
   public async registerUser(@Body() body: RegisterUserBodyDTO): Promise<void> {
-    const command = new RegisterUserCommand(
-      body.name,
-      body.email,
-      body.password,
-    );
+    const command = new RegisterUserCommand({ ...body });
+
     await this.commandBus.execute(command);
   }
 }
