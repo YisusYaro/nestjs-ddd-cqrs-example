@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
-import { RegisterUserHandler } from './aplication/commands/register-user.handler';
+import { RegisterUserHandler } from './aplication/commands/register-user/register-user.handler';
 import { databaseProviders } from './infrastucture/providers/database.providers';
 import { Provider } from '@nestjs/common';
 import { usersProviders } from './infrastucture/providers/users.provides';

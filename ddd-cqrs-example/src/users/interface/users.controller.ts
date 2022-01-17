@@ -6,7 +6,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { RegisterUserCommand } from '../aplication/commands/register-user.command';
+import { RegisterUserCommand } from '../aplication/commands/register-user/register-user.command';
 import { RegisterUserBodyDTO } from './dto/register-user.body.dto';
 import { ResponseDescription } from './response-description';
 

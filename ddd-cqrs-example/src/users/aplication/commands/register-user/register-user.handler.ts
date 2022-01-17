@@ -1,10 +1,9 @@
 import { BadRequestException, Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { Uuid } from 'src/shared/domain/value-object/Uuid';
-import { ErrorMessage } from 'src/users/domain/error';
-import { UserFactory } from '../../domain/factory';
-import { UserRepository } from '../../domain/repository';
-import { InjectionToken } from '../injection.token';
+import { ErrorMessage } from '../../../domain/error';
+import { UserFactory } from '../../../domain/factory';
+import { UserRepository } from '../../../domain/repository';
+import { InjectionToken } from '../../injection.token';
 import { RegisterUserCommand } from './register-user.command';
 
 @CommandHandler(RegisterUserCommand)
@@ -24,7 +23,7 @@ export class RegisterUserHandler
       throw new BadRequestException(ErrorMessage.USER_IS_ALREADY_REGISTERED);
 
     user = this.userFactory.create({
-      id: Uuid.random().value,
+      id: '',
       name: command.name,
       email: command.email,
     });

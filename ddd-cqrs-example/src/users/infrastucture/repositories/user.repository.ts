@@ -8,7 +8,6 @@ export class UserRepositoryImplement implements UserRepository {
 
   async save(data: User | User[]): Promise<void> {
     const createdUser = new this.userModel(data);
-    console.log(createdUser);
     await createdUser.save();
     return;
   }
