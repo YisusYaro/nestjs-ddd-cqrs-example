@@ -37,4 +37,4 @@ docker exec -it backend-container npm run start:dev
 This project is under the License described in the file [LICENSE](LICENSE)
 
 ---
-⌨️ con ❤️# nestjs-ddd-cqrs-example
+⌨️ con ❤️
