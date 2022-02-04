@@ -15,8 +15,8 @@ docker-compose up -d
 ## Dev enviroment 📦
 
 ```
-docker-compose -f docker-compose-dev.yml build
-docker-compose -f docker-compose-dev.yml up -d
+docker-compose -f docker-compose-dev.yaml build
+docker-compose -f docker-compose-dev.yaml up -d
 
 docker exec -it backend-container npm i
 docker exec -it backend-container npm run start:dev
